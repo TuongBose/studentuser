@@ -1,14 +1,18 @@
 import express from 'express';
+import { body, validationResult } from 'express-validator'
 const router = express.Router();
+import {
+    userController
+} from '../controllers/index.js';
 
-router.get('/',(req,res)=>{
-    res.send('Hello from Users route');
-});
-router.post('/login',(req,res)=>{
-    res.send('Login route');
-});
-router.post('/register',(req,res)=>{
-    res.send('Register route');
-});
+router.get('/:id', userController.getDetailUser);
+
+router.post('/login',
+    body('email').isEmail(),
+    body('password').isLength({ min: 5 }),
+    userController.login
+);
+
+router.post('/register', userController.register);
 
 export default router;

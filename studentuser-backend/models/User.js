@@ -1,7 +1,7 @@
-import { mongoose, Schema } from "mongoose";
+import { mongoose, Schema,ObjectId } from "mongoose";
 import isEmail from 'validator/lib/isEmail.js'
 
-export default mongoose.model('User',
+const User= mongoose.model('User',
     new Schema({
         id: { type: ObjectId },
         name: {
@@ -33,3 +33,5 @@ export default mongoose.model('User',
         }
     })
 );
+
+export default User;

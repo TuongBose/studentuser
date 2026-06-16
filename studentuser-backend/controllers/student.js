@@ -1,5 +1,7 @@
+import HttpStatusCode from "../exceptions/httpStatusCode.js";
+
 async function getAllStudents(req, res) {
-    res.status(200).json({
+    res.status(HttpStatusCode.OK).json({
         message: 'Get all students successfully',
         data: [
             {

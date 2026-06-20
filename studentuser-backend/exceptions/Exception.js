@@ -6,8 +6,11 @@ export default class Exception extends Error {
     static CANNOT_CONNECT_MONGODB = "Error connecting to MongoDB"
     static USER_ALREADY_EXISTS = "User already exists"
     static CANNOT_REGISTER_USER = "Cannot register user"
-    constructor(message){
+    static WRONG_EMAIL_OR_PASSWORD = "Wrong email or password"
+    
+    constructor(message, validationErrors={}){
         super(message);
         print(message, OutputType.ERROR);
+        this.validationErrors = validationErrors;
     }
 }

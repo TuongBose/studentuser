@@ -2,11 +2,33 @@ import Exception from '../exceptions/Exception.js';
 import { print, OutputType } from '../helpers/print.js';
 import User from '../models/User.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const login = async ({ email, password }) => {
-    // const isMatched = await bcrypt.compare(password, existingUser.password)
-    // if(isMatched){
-    print(`Login user with email: ${email} and password: ${password}`, OutputType.INFOMATION);
+    // print(`Login user with email: ${email} and password: ${password}`, OutputType.INFOMATION);
+    let existingUser = await User.findOne({ email }).exec()
+    if (existingUser) {
+        let isMatched = await bcrypt.compare(password, existingUser.password)
+        if (!!isMatched) {
+            let token = jwt.sign({
+                data: existingUser
+            },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: '10 days'
+                }
+            )
+            return {
+                ...existingUser.toObject(),
+                password: 'Not show',
+                token
+            }
+        } else {
+            throw new Exception(Exception.WRONG_EMAIL_OR_PASSWORD);
+        }
+    } else {
+        throw new Exception(Exception.WRONG_EMAIL_OR_PASSWORD);
+    }
 }
 
 const register = async ({

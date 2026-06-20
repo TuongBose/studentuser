@@ -1,4 +1,4 @@
-import { mongoose, Schema,ObjectId } from "mongoose";
+import { mongoose, Schema, ObjectId } from "mongoose";
 import isEmail from 'validator/lib/isEmail.js'
 
 const Student = mongoose.model('Student',
@@ -25,7 +25,7 @@ const Student = mongoose.model('Student',
         gender: {
             type: String,
             enum: {
-                values: ['male', 'female', 'other'],
+                values: ['Male', 'Female', 'Other'],
                 message: '{VALUE} is not supported'
             },
             required: true,
@@ -34,8 +34,9 @@ const Student = mongoose.model('Student',
             type: String,
             required: true,
             validate: {
-                validator: (phoneNumber) => phoneNumber.length > 5,
-                message: 'Phone number must be at least 6 characters long'
+                validator: (phoneNumber) => phoneNumber.length > 5
+                    && phoneNumber.length < 25,
+                message: 'Phone number must be between 6 and 20 characters long'
             }
         },
         address: {

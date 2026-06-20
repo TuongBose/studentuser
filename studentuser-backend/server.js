@@ -7,8 +7,10 @@ import {
 
 dotenv.config();
 import connect from "./database/database.js";
+import checkToken from "./authentication/auth.js";
 
 const app = express();
+app.use(checkToken);
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
 app.use('/users', usersRouter);
